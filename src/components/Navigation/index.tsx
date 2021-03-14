@@ -7,7 +7,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 
 const Navigation = () => {
   const history = useHistory();
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
   const [tabValue, setTabValue] = useState<number>(0);
 
   // 
@@ -19,7 +19,7 @@ const Navigation = () => {
     } else if (pathname === '/home/result') {
       setTabValue(2);
     }
-  }, [pathname])
+  }, [pathname]);
 
   const handleChange = (e: any, newValue: number) => {
     setTabValue(newValue);
@@ -30,7 +30,7 @@ const Navigation = () => {
     } else if (newValue === 2) {
       history.push('/home/result')
     }
-  }
+  };
 
   return (
     <Nav>
@@ -38,34 +38,28 @@ const Navigation = () => {
         <Logo>
           <Link to="/home">BBT</Link>
         </Logo>
-        <Tabs
-          value={tabValue}
-          indicatorColor="primary"
-          textColor="primary"
-          onChange={handleChange}
-          style={{paddingLeft:'100px'}}
-        >
+        <Tabs value={tabValue} indicatorColor="primary" textColor="primary" onChange={handleChange} style={{ paddingLeft: '100px' }}>
           <Tab label="기출문제" />
           <Tab label="문제풀이" />
           <Tab label="결과보기" />
         </Tabs>
       </Paper>
     </Nav>
-  )
-}
+  );
+};
 
 export default Navigation;
 
 const Nav = styled.div`
-  position:relative;
+  position: relative;
 `;
 
 const Logo = styled.h1`
-  display:flex;
-  justify-items:center;
-  align-items:center;
+  display: flex;
+  justify-items: center;
+  align-items: center;
   position: absolute;
-  left:24px;
-  font-size:24px;
-  height:100%;
+  left: 24px;
+  font-size: 24px;
+  height: 100%;
 `;

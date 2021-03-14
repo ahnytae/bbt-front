@@ -12,7 +12,7 @@ const RouteContainer: React.FC = () => {
   return (
     <>
       <Switch>
-        <Redirect exact path="/" to="/home" />
+        {/* <Redirect exact path="/" to="/home" /> */}
         {routes.map(({ path, component: Component, exact = true }, index) => (
           <Route exact={exact} path={path} key={index}>
             <Component />
