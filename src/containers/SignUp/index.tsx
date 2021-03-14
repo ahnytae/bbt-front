@@ -50,8 +50,10 @@ const SignUp: React.FC = (): any => {
   const [accountInfo, setAccountInfo] = useState({
     id: '',
     pw: '',
+    rePw: '',
     name: '',
   });
+  const [overlapPw, setOverlapPw] = useState<boolean>(true);
 
   const [signup, { loading, data }] = useMutation(SIGNUP);
 
@@ -67,6 +69,12 @@ const SignUp: React.FC = (): any => {
     e.preventDefault();
 
     signup({ variables: { id, pw, name } });
+  };
+
+  // 비번 동일한지 체크
+  const overlapCheck = (e: any) => {
+    if (e.target.value === accountInfo.pw && validatePw(e.target.value)) setOverlapPw(false);
+    else setOverlapPw(true);
   };
 
   // if (error) alert('no');
@@ -111,6 +119,21 @@ const SignUp: React.FC = (): any => {
                 autoComplete="current-password"
                 onChange={onChange}
                 helperText="숫자, 특문 각 1회 이상, 영문은 2개 이상 사용하여 8자리 이상"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                error={overlapPw}
+                variant="filled"
+                required
+                fullWidth
+                name="pw"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={overlapCheck}
+                helperText={`${!overlapPw ? '' : '비밀번호 동일하게'}`}
               />
             </Grid>
           </Grid>
