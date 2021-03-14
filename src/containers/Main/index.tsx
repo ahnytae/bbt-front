@@ -3,7 +3,7 @@ import styled, {css} from 'styled-components';
 
 const StyledWrap = styled.div`
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   display: flex;
   height: ${({theme}) => css`
     background: ${theme?.primaryColors.dkGreyBg};
