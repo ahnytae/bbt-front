@@ -1,70 +1,126 @@
 import React, { useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
-import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
-
+import { useHistory, Link } from 'react-router-dom';
 import { SIGNIN } from '../../api/Login/Login';
 
+// material-ui
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      BBT {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
 const SignIn: React.FC = (): any => {
-  const [id, setId] = useState<string>('');
-  const [auth, { loading, data }] = useLazyQuery(SIGNIN);
+  const classes = useStyles();
+
+  const [accountInfo, setAccountInfo] = useState({
+    id: '',
+    pw: '',
+  });
+  const [auth, { loading, data, error }] = useLazyQuery(SIGNIN);
 
   const history = useHistory();
+
   if (loading) return 'Loading...';
 
   const authCheck = (e: any) => {
+    const { id, pw } = accountInfo;
     e.preventDefault();
+    if (id.length === 0 || pw.length === 0) return alert('계정정보 다시');
     auth({ variables: { id } });
-
-    if (data) {
-      history.push('/home');
-    }
   };
 
+  const onChange = (e: any) => {
+    const { name, value } = e.target;
+    setAccountInfo({ ...accountInfo, [name]: value });
+  };
+
+  // if (error) alert('no');
+  if (data) history.push('/main');
+
   return (
-    <LoginPage>
-      <div className="login-wrapper">
-        <h2>Login</h2>
-        <LoginForm onSubmit={authCheck}>
-          <input type="text" placeholder="ID" onChange={(e) => setId(e.target.value)} />
-          <input type="password" placeholder="PW" />
-          <button type="submit">Login</button>
-        </LoginForm>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h5">
+          BBT
+        </Typography>
+        <form className={classes.form} noValidate onSubmit={authCheck}>
+          <TextField
+            variant="filled"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="id"
+            autoComplete="email"
+            autoFocus
+            onChange={onChange}
+          />
+          <TextField
+            variant="filled"
+            margin="normal"
+            required
+            fullWidth
+            name="pw"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            onChange={onChange}
+          />
+          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link to="#">Forgot password?</Link>
+            </Grid>
+            <Grid item>
+              <Link to="/signup">Don't have an account? Sign Up</Link>
+            </Grid>
+          </Grid>
+        </form>
       </div>
-    </LoginPage>
+      <Box mt={8}>
+        <Copyright />
+      </Box>
+    </Container>
   );
 };
 
 export default SignIn;
-
-const LoginPage = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  .login-wrapper {
-    width: 768px;
-    > h2 {
-      text-align: center;
-    }
-  }
-`;
-
-const LoginForm = styled.form`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  > input {
-    display: block;
-    width: 300px;
-  }
-  > button {
-    display: inline-block;
-    width: 300px;
-  }
-`;
