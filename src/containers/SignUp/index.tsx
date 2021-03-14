@@ -1,16 +1,6 @@
 import React, { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
-
-const SIGNUP = gql`
-  mutation createUser($id: String!, $pw: String!, $name: String!) {
-    createUser(variables: { id: $id, pw: $pw, name: $name }) {
-      userNo
-      id
-      pw
-      name
-    }
-  }
-`;
+import { useMutation } from '@apollo/client';
+import { SIGNUP } from '../../api/Login/Login';
 
 const SignUp: React.FC = (): any => {
   const [accountInfo, setAccountInfo] = useState({
@@ -32,9 +22,6 @@ const SignUp: React.FC = (): any => {
     const { id, pw, name } = accountInfo;
     e.preventDefault();
     signup({ variables: { id, pw, name } });
-
-    if (data) alert('success!');
-    else alert('fail!');
   };
 
   const { id, pw, name } = accountInfo;
