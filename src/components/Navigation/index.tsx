@@ -39,8 +39,8 @@ const Navigation = () => {
           <Link to="/home">BBT</Link>
         </Logo>
         <Tabs value={tabValue} indicatorColor="primary" textColor="primary" onChange={handleChange} style={{ paddingLeft: '100px' }}>
-          <Tab label="기출문제" />
           <Tab label="문제풀이" />
+          <Tab label="기출문제" />
           <Tab label="결과보기" />
         </Tabs>
       </Paper>
