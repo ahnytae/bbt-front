@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
-import Navigation from 'src/components/Navigation';
 import { routes } from './index';
 
 const RouteContainer: React.FC = () => {
@@ -10,19 +9,8 @@ const RouteContainer: React.FC = () => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  const onAtiveNavigation = () => {
-    if(
-      pathname.split('/')[1] !== 'home' &&
-      pathname.split('/')[1] !== 'signin' &&
-      pathname.split('/')[1] !== 'signup'
-    ) {
-      return <Navigation />
-    }
-  }
-
   return (
     <>
-      {onAtiveNavigation()}
       <Switch>
         <Redirect exact path="/" to="/home" />
         {routes.map(({ path, component: Component, exact = true }, index) => (
