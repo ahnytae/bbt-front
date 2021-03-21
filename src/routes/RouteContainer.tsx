@@ -1,37 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import Navigation from 'src/components/Navigation';
+import SignIn from 'src/containers/SignIn';
 import { routes } from './index';
+import { loginStateVar } from 'src/store/LoginStore';
 
 const RouteContainer: React.FC = () => {
   const { pathname } = useLocation();
+  const [state, setState] = useState<boolean>(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (loginStateVar()) setState(true);
+    else setState(false);
   }, [pathname]);
-
-  // const onAtiveNavigation = () => {
-  //   if(
-  //     pathname.split('/')[1] !== 'home' &&
-  //     pathname.split('/')[1] !== 'signin' &&
-  //     pathname.split('/')[1] !== 'signup'
-  //   ) {
-  //     return <Navigation />
-  //   }
-  // }
-
+  console.log('main', loginStateVar());
   return (
     <>
-      <Navigation />
-      <Switch>
-        {/* <Redirect exact path="/" to="/home" /> */}
-        {routes.map(({ path, component: Component, exact = true }, index) => (
-          <Route exact={exact} path={path} key={index}>
-            <Component />
-          </Route>
-        ))}
-        <Redirect from="*" to="/" />
-      </Switch>
+      {state ? (
+        <>
+          <Navigation />
+          <Switch>
+            {routes.map(({ path, component: Component, exact = true }, index) => (
+              <Route exact={exact} path={path} key={index}>
+                <Component loginStateVar={state} />
+              </Route>
+            ))}
+          </Switch>
+        </>
+      ) : (
+        <Route path="/signin" component={SignIn} />
+      )}
     </>
   );
 };

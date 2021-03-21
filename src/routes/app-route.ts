@@ -5,7 +5,7 @@ import QuestionResult from 'src/containers/Main/QuestionResult';
 import MainContainer from '../containers/Main';
 import SignIn from '../containers/SignIn';
 import SignUp from '../containers/SignUp';
-import {PathItem} from '../models/route.model';
+import { PathItem } from '../models/route.model';
 
 export const appRoutes: PathItem[] = [
   {

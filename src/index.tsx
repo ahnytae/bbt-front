@@ -7,12 +7,22 @@ import theme from './styles/theme';
 import { Router } from 'react-router-dom';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { ApolloProvider } from '@apollo/client';
+import { loginState } from 'src/containers/SignIn/index';
 
 const history = createBrowserHistory();
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          //... local cache
+          loginState,
+        },
+      },
+    },
+  }),
 });
 
 ReactDOM.render(

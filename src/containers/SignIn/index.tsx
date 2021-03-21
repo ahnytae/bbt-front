@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { useHistory, Link } from 'react-router-dom';
 import { SIGNIN } from '../../api/Login/Login';
+import { loginStateVar } from 'src/store/LoginStore';
 
 // material-ui
 import Button from '@material-ui/core/Button';
@@ -43,16 +44,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export const loginState = {
+  read() {
+    //Any logic you want
+    return loginStateVar();
+  },
+};
+
 const SignIn: React.FC = (): any => {
   const classes = useStyles();
+  const history = useHistory();
 
   const [accountInfo, setAccountInfo] = useState({
     id: '',
     pw: '',
   });
-  const [auth, { loading, data, error }] = useLazyQuery(SIGNIN);
 
-  const history = useHistory();
+  console.log('HI', loginStateVar());
+
+  const [auth, { loading, data, error }] = useLazyQuery(SIGNIN, {
+    onCompleted: () => {
+      loginStateVar(true);
+      if (data) history.push('/home');
+      console.log('login', data);
+    },
+    onError: () => {
+      alert('계정이 맞지 않다!@!@');
+    },
+  });
 
   if (loading) return 'Loading...';
 
@@ -60,16 +79,13 @@ const SignIn: React.FC = (): any => {
     const { id, pw } = accountInfo;
     e.preventDefault();
     if (id.length === 0 || pw.length === 0) return alert('계정정보 다시');
-    auth({ variables: { id } });
+    auth({ variables: { id, pw } });
   };
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
     setAccountInfo({ ...accountInfo, [name]: value });
   };
-
-  // if (error) alert('no');
-  if (data) history.push('/main');
 
   return (
     <Container component="main" maxWidth="xs">

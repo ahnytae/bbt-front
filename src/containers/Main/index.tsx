@@ -1,20 +1,13 @@
 import React from 'react';
-import styled, {css} from 'styled-components';
 
-const StyledWrap = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  height: ${({theme}) => css`
-    background: ${theme?.primaryColors.dkGreyBg};
-    @media ${theme?.breakpoints.laptop} {
-      flex-direction: column;
-    }
-  `};
-`;
+interface Prop {
+  loginState: boolean;
+}
 
-const MainContainer: React.FC = () => {
-  return <StyledWrap>Hello world!</StyledWrap>;
+const MainContainer: React.FC<Prop> = ({ loginState }: Prop) => {
+  console.log('main login state: ', loginState);
+
+  return <div>Hello world!</div>;
 };
 
 export default MainContainer;
