@@ -10,21 +10,21 @@ const RouteContainer: React.FC = () => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  const onAtiveNavigation = () => {
-    if(
-      pathname.split('/')[1] !== 'home' &&
-      pathname.split('/')[1] !== 'signin' &&
-      pathname.split('/')[1] !== 'signup'
-    ) {
-      return <Navigation />
-    }
-  }
+  // const onAtiveNavigation = () => {
+  //   if(
+  //     pathname.split('/')[1] !== 'home' &&
+  //     pathname.split('/')[1] !== 'signin' &&
+  //     pathname.split('/')[1] !== 'signup'
+  //   ) {
+  //     return <Navigation />
+  //   }
+  // }
 
   return (
     <>
-      {onAtiveNavigation()}
+      <Navigation />
       <Switch>
-        <Redirect exact path="/" to="/home" />
+        {/* <Redirect exact path="/" to="/home" /> */}
         {routes.map(({ path, component: Component, exact = true }, index) => (
           <Route exact={exact} path={path} key={index}>
             <Component />
