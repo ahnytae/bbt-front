@@ -69,7 +69,7 @@ const SignIn: React.FC = (): any => {
   };
 
   // if (error) alert('no');
-  if (data) history.push('/main');
+  if (data) history.push('/home');
 
   return (
     <Container component="main" maxWidth="xs">

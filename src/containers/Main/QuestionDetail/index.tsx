@@ -2,7 +2,7 @@ import React from 'react';
 
 const QuestionDetail = () =>  {
   return (
-    <div>sadfsdf</div>
+    <div>QuestionDetail</div>
   )
 }
 

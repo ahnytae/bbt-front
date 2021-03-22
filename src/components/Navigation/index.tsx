@@ -10,24 +10,25 @@ const Navigation = () => {
   const { pathname } = useLocation();
   const [tabValue, setTabValue] = useState<number>(0);
 
+  // 
   useEffect(() => {
-    if (pathname === '/question/list') {
-      setTabValue(0);
-    } else if (pathname === '/question') {
-      setTabValue(1);
-    } else if (pathname === '/question/result') {
+    if(pathname === '/home') {
+      setTabValue(0)
+    } else if (pathname === '/home/question' || pathname.split('/')[3]) {
+      setTabValue(1)
+    } else if (pathname === '/home/result') {
       setTabValue(2);
     }
   }, [pathname]);
 
   const handleChange = (e: any, newValue: number) => {
     setTabValue(newValue);
-    if (newValue === 0) {
-      history.push('/question/list');
+    if(newValue === 0){
+      history.push('/home')
     } else if (newValue === 1) {
-      history.push('/question');
+      history.push('/home/question');
     } else if (newValue === 2) {
-      history.push('/question/result');
+      history.push('/home/result')
     }
   };
 
@@ -35,11 +36,11 @@ const Navigation = () => {
     <Nav>
       <Paper>
         <Logo>
-          <Link to="/question/list">BBT</Link>
+          <Link to="/home">BBT</Link>
         </Logo>
         <Tabs value={tabValue} indicatorColor="primary" textColor="primary" onChange={handleChange} style={{ paddingLeft: '100px' }}>
-          <Tab label="기출문제" />
           <Tab label="문제풀이" />
+          <Tab label="기출문제" />
           <Tab label="결과보기" />
         </Tabs>
       </Paper>
